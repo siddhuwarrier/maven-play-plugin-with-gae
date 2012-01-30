@@ -24,13 +24,13 @@ under the License.
     <parent>
         <groupId>com.google.code.maven-play-plugin</groupId>
         <artifactId>play-app-default-parent</artifactId>
-        <version>1.0.0-alpha6</version>
+        <version>1.0.0-alpha7-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.google.test-maven-play-plugin</groupId>
     <artifactId>test-play</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>play</packaging>
 
     <name>Play! Framework Maven Test Projects : Packagings : WAR : Using Assembly : Play! 1.2.x</name>
@@ -53,22 +53,23 @@ under the License.
             </releases>
         </repository>
         <repository>
-			<id>maven-gae-plugin-repo</id>
-			<name>maven-gae-plugin repository</name>
-			<url>
+            <id>maven-gae-plugin-repo</id>
+            <name>maven-gae-plugin repository</name>
+            <url>
                 http://maven-gae-plugin.googlecode.com/svn/repository
             </url>
-		</repository>
+        </repository>
     </repositories>
 
     <properties>
-		<gae.version>1.6.1</gae.version>
-
-		<gae.home>
-			/Users/angeloh/utils/appengine-sdks/appengine-java-sdk-${gae.version}
-		</gae.home>
-
-		<gae.plugin.version>0.9.2</gae.plugin.version>
+        <gae.version>1.6.1</gae.version>
+        <!-- GS - default value is: ${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}
+                  and it is better (portable)
+        <gae.home>
+            /Users/angeloh/utils/appengine-sdks/appengine-java-sdk-${gae.version}
+        </gae.home>
+        -->
+        <gae.plugin.version>0.9.2</gae.plugin.version>
     </properties>
 
     <dependencies>
@@ -82,12 +83,6 @@ under the License.
             <artifactId>play-siena</artifactId>
             <version>2.0.7-SNAPSHOT</version>
         </dependency>
-        <dependency>
-       		<groupId>org.codehaus.plexus</groupId>
-			<artifactId>plexus-utils</artifactId>
-			<version>3.0</version>
-	        <scope>test</scope>
-		</dependency>
     </dependencies>
 
     <build>
@@ -98,17 +93,17 @@ under the License.
                 <extensions>true</extensions>
             </plugin>
             <plugin>
-						<groupId>net.kindleit</groupId>
-						<artifactId>maven-gae-plugin</artifactId>
-						<version>${gae.plugin.version}</version>
-						<configuration>
-							<unpackVersion>${gae.version}</unpackVersion>
-							<serverId>appengine.google.com</serverId>
-							<sdkDir>${gae.home}</sdkDir>
-							<appDir>${basedir}/war</appDir>
-							<splitJars>true</splitJars>
-						</configuration>
-					</plugin>
+                <groupId>net.kindleit</groupId>
+                <artifactId>maven-gae-plugin</artifactId>
+                <version>${gae.plugin.version}</version>
+                <configuration>
+                    <unpackVersion>${gae.version}</unpackVersion>
+                    <serverId>appengine.google.com</serverId>
+                    <!-- GS - use default <sdkDir>${gae.home}</sdkDir>-->
+                    <appDir>${basedir}/war</appDir>
+                    <splitJars>true</splitJars>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -153,6 +148,7 @@ under the License.
     </reporting>
 
     <profiles>
+<!-- GS - no depenedncies to unpack
         <profile>
             <id>autodeps</id>
 
@@ -174,7 +170,7 @@ under the License.
                 </plugins>
             </build>
         </profile>
-
+-->
         <profile>
             <id>dist</id>
 
@@ -201,9 +197,13 @@ under the License.
                         <version>2.2.1</version>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
+                            <attach>false</attach>
                             <descriptors>
                                 <descriptor>${basedir}/assembly-war.xml</descriptor>
                             </descriptors>
+                            <formats>
+                                <format>dir</format>
+                            </formats>
                             <outputDirectory>${basedir}</outputDirectory>
                             <finalName>war</finalName>
                         </configuration>

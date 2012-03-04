@@ -1,15 +1,20 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-
-import java.util.*;
-
+import play.modules.gae.GAE;
+import play.mvc.Controller;
 
 public class Application extends Controller {
 
     public static void index() {
-        render();
+        if (!GAE.isLoggedIn()) {
+            GAE.login();
+        }
+        else {
+            render();
+        }
     }
 
+    public static void logout() {
+        GAE.logout("Application.index");
+    }
 }

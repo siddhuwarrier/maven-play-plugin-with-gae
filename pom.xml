@@ -79,6 +79,13 @@ under the License.
             <version>1.6.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.google.code.maven-play-plugin.org.playframework.modules.gae</groupId>
+            <artifactId>play-gae</artifactId>
+            <version>1.6.0-SNAPSHOT</version>
+            <classifier>module</classifier>
+			<type>zip</type>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.maven-play-plugin.org.playframework.modules.siena</groupId>
             <artifactId>play-siena</artifactId>
             <version>2.0.7-SNAPSHOT</version>
@@ -86,6 +93,8 @@ under the License.
     </dependencies>
 
     <build>
+    	<sourceDirectory>app/</sourceDirectory>
+    	<testSourceDirectory>test/</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>com.google.code.maven-play-plugin</groupId>
@@ -105,6 +114,37 @@ under the License.
                 </configuration>
             </plugin>
         </plugins>
+			 	<pluginManagement>
+			        <plugins>
+			            <!--This plugin's configuration is used to store Eclipse 
+			                m2e settings only. It has no influence on the Maven build itself. -->
+			            <plugin>
+			                <groupId>org.eclipse.m2e</groupId>
+			                <artifactId>lifecycle-mapping</artifactId>
+			                <version>1.0.0</version>
+			                <configuration>
+			                    <lifecycleMappingMetadata>
+			                        <pluginExecutions>
+			                            <pluginExecution>
+			                                <pluginExecutionFilter>
+			                                    <groupId>com.google.code.maven-play-plugin</groupId>
+			                                    <artifactId>play-maven-plugin</artifactId>
+			                                    <versionRange>[1.0.0-alpha6,)</versionRange>
+			                                    <goals>
+			                                        <goal>generate-selenium-junit4-sources</goal>
+			                                        <goal>initialize</goal>
+			                                    </goals>
+			                                </pluginExecutionFilter>
+			                                <action>
+			                                    <execute />
+			                                </action>
+			                            </pluginExecution>
+			                        </pluginExecutions>
+			                    </lifecycleMappingMetadata>
+			                </configuration>
+			            </plugin>
+			        </plugins>
+			    </pluginManagement>
     </build>
     <reporting>
         <plugins>
